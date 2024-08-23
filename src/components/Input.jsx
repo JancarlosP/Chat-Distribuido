@@ -182,11 +182,7 @@ const Input = () => {
                   style={{ maxWidth: "100%" }}
                 />
               ) : (
-                <img
-                  src={imagePreview}
-                  alt="Vista previa"
-                  
-                />
+                <img src={imagePreview} alt="Vista previa" />
               )
             ) : (
               <div
