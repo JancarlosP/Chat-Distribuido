@@ -14,6 +14,7 @@ import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { FaExclamationCircle } from "react-icons/fa";
+import { FaTimesCircle } from "react-icons/fa";
 
 const Input = () => {
   const [text, setText] = useState("");
@@ -23,6 +24,12 @@ const Input = () => {
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+
+  const cancelUpload = () => {
+    setImg(null);
+    setImagePreview(null);
+    setError("");
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -173,6 +180,16 @@ const Input = () => {
 
         {imagePreview && (
           <div className="image-preview">
+            <FaTimesCircle
+              onClick={cancelUpload}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "10px",
+                color: "red",
+                cursor: "pointer",
+              }}
+            />
             {img &&
             (img.type.startsWith("image/") || img.type.startsWith("video/")) ? (
               img.type.startsWith("video/") ? (
@@ -193,6 +210,16 @@ const Input = () => {
                   alignItems: "center",
                 }}
               >
+                <FaTimesCircle
+                  onClick={cancelUpload}
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "10px",
+                    color: "red",
+                    cursor: "pointer",
+                  }}
+                />
                 <img src={imagePreview} alt="" style={{ maxWidth: "50px" }} />
                 <span style={{ fontSize: "12px", color: "#666" }}>
                   {" "}
