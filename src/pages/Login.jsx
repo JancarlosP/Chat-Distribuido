@@ -53,6 +53,7 @@ const Login = () => {
       alert(
         "Si tiene una cuenta con nosotros, debería llegarle un correo electrónico para restablecer su contraseña."
       ); // Confirmación enviada
+      setEmail(""); // Limpiar el campo de correo electrónico
     } catch (error) {
       console.error("Error al enviar el email de restablecimiento:", error);
       alert(

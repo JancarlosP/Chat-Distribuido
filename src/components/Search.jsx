@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
+
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
@@ -27,9 +28,15 @@ const Search = () => {
 
     try {
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-      });
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          setUser(doc.data());
+        });
+        setErr(false);
+      } else {
+        setUser(null);
+        setErr(true);
+      }
     } catch (err) {
       setErr(true);
     }
@@ -68,11 +75,20 @@ const Search = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
 
     setUser(null);
     setUsername("");
   };
+
+  const handleInputChange = (e) => {
+    setUsername(e.target.value);
+    setUser(null);
+    setErr(false);
+  };
+
   return (
     <div className="search">
       <div className="searchForm">
@@ -80,11 +96,24 @@ const Search = () => {
           type="text"
           placeholder="Buscar a un Usuario"
           onKeyDown={handleKey}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={handleInputChange}
           value={username}
         />
       </div>
-      {err && <span>Usuario no encontrado!</span>}
+      {err && (
+        <span
+          style={{
+            color: "white",
+            fontSize: "15px",
+            display: "block",
+            textAlign: "center",
+            marginTop: "10px",
+          }}
+        >
+          Usuario no encontrado!
+        </span>
+      )}
+
       {user && (
         <div className="userChat" onClick={handleSelect}>
           <img src={user.photoURL} alt="" />
