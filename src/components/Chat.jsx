@@ -15,7 +15,7 @@ const Chat = () => {
             src={Cam}
             alt="Start Video Call"
             onClick={() => {
-              const url = "https://videollamada.kesug.com";
+              const url = "https://video-calling-app-main.vercel.app/";
               window.open(url, "_blank", "noopener,noreferrer");
             }}
             style={{ cursor: "pointer" }}
